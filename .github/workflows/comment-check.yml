@@ -1,0 +1,28 @@
+name: Check Comments Language
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - feature/*
+
+jobs:
+  check-comments:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Нужно для получения diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install langdetect
+
+      - name: Run comment checker
+        run: python .github/scripts/check_comments.py
