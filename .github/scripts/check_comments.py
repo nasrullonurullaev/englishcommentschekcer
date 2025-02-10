@@ -11,13 +11,20 @@ COMMENT_REGEX = re.compile(r"(?://|#|<!--|/\*|\*).+")
 # Regex to detect non-English letters (anything that is not a-z, A-Z, 0-9, punctuation, or spaces)
 NON_ENGLISH_REGEX = re.compile(r"[^\x00-\x7F]")  # Matches any non-ASCII character
 
+def get_base_branch():
+    """Gets the base branch of the current PR from GitHub Actions environment"""
+    return os.getenv("GITHUB_BASE_REF", "main")  # Default to 'main' if not in CI
+
 def get_diff():
-    """Gets the diff of the current PR with the main branch"""
+    """Gets the diff of the current PR with the base branch"""
+    base_branch = get_base_branch()
+    print(f"🔍 Checking diff against: {base_branch}")
+
     try:
-        subprocess.run(["git", "fetch", "origin", "main"], check=True)
+        subprocess.run(["git", "fetch", "origin", base_branch], check=True)
 
         result = subprocess.run(
-            ["git", "diff", "--unified=0", "origin/main"],
+            ["git", "diff", "--unified=0", f"origin/{base_branch}"],
             capture_output=True,
             text=True,
             check=False  # Allow failures but still capture output
