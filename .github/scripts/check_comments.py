@@ -16,20 +16,38 @@ def get_base_branch():
     return os.getenv("GITHUB_BASE_REF", "main")  # Default to 'main' if not in CI
 
 def get_diff():
-    """Gets the diff of the current PR with the base branch"""
+    """Gets the diff of the current PR with the base branch, excluding specific file types"""
     base_branch = get_base_branch()
     print(f"🔍 Checking diff against: {base_branch}")
-
+    
     try:
         subprocess.run(["git", "fetch", "origin", base_branch], check=True)
 
+        # Get changed files
         result = subprocess.run(
-            ["git", "diff", "--unified=0", f"origin/{base_branch}"],
+            ["git", "diff", "--name-only", f"origin/{base_branch}"],
             capture_output=True,
             text=True,
-            check=False  # Allow failures but still capture output
+            check=True
         )
 
+        changed_files = result.stdout.splitlines()
+        
+        # Filter out excluded files
+        included_files = [f for f in changed_files if not f.endswith(EXCLUDED_FILES)]
+        
+        if not included_files:
+            print("✅ No files to check (all excluded).")
+            return ""
+        
+        # Get diff only for included files
+        result = subprocess.run(
+            ["git", "diff", "--unified=0", f"origin/{base_branch}", "--"] + included_files,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
         return result.stdout if result.stdout else ""
 
     except subprocess.CalledProcessError as e:
@@ -41,7 +59,7 @@ def extract_comments(diff_output):
     comments = []
     for line in diff_output.split("\n"):
         if line.startswith("+") and not line.startswith("+++") and COMMENT_REGEX.search(line):
-            comments.append(line[1:].strip())  # Remove "+"
+            comments.append(line[1:].strip())  # Remove " +"
     return comments
 
 def contains_non_english(text):
