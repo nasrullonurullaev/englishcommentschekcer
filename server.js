@@ -19,3 +19,4 @@ function showPrimes(n) {
 // салам
 // hi
 // hello
+// good
