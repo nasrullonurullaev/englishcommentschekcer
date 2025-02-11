@@ -13,3 +13,4 @@ function showPrimes(n) {
 // is not code
 // салам по полам
 //hello
+как там
