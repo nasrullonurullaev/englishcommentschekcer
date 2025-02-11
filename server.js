@@ -14,4 +14,3 @@ function showPrimes(n) {
 // салам по полам
 //hello
 как там
-// привет
