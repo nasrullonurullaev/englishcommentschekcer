@@ -18,3 +18,4 @@ function showPrimes(n) {
 (* впыв *)
 // салам
 // hi
+// hello
