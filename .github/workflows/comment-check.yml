@@ -22,7 +22,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install langdetect
+        run: pip install regex
 
       - name: Run comment checker
         run: python .github/scripts/check_comments.py
