@@ -12,3 +12,12 @@ function showPrimes(n) {
     // this is code
 // is not code
 // салам по полам
+//hello
+как там
+(* hello *)
+(* впыв *)
+// салам
+// hi
+// hello
+// good
+// give me
