@@ -1,11 +1,12 @@
 name: Check Comments Language
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
-      - feature/*
+  workflow_dispatch:
+    inputs:
+      base_branch:
+        description: 'Base branch to compare against'
+        required: true
+        default: 'main'
 
 jobs:
   check-comments:
