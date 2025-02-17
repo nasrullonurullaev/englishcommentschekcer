@@ -1,12 +1,8 @@
 name: Check Comments Language
 
 on:
-  workflow_dispatch:
-    inputs:
-      base_branch:
-        description: 'Base branch to compare against'
-        required: true
-        default: 'main'
+  repository_dispatch:
+    types: [check_comments]
 
 jobs:
   check-comments:
