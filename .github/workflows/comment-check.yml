@@ -2,7 +2,7 @@ name: Check Comments Language
 
 on:
   repository_dispatch:
-    types: [check_comments]
+    types: [issues]
 
 jobs:
   check-comments:
