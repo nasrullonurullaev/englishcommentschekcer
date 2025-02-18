@@ -2,7 +2,7 @@ name: Check Comments Language
 
 on:
   repository_dispatch:
-    types: [dependency_update]
+    types: [ping]
 
 jobs:
   check-comments:
