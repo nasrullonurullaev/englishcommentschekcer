@@ -2,7 +2,7 @@ name: Check Comments Language
 
 on:
   repository_dispatch:
-    types: pull_request
+    types: [dependency_update]
 
 jobs:
   check-comments:
